@@ -1,5 +1,9 @@
 # MemoryHog
 
+<p align="center">
+  <img src="docs/screenshot.png" alt="RAM Hog UI showing system memory stats and allocate/release buttons" width="320" />
+</p>
+
 An Android app that deliberately consumes RAM, on demand, so you can watch how a real device reacts to memory pressure: low-memory warnings, the kernel's OOM killer, app-process eviction, jank, swap, and the rest.
 
 It exists as a debugging / experimentation tool. Use it to stress-test devices, reproduce low-memory bugs, profile other apps under realistic pressure, or just learn how Android's memory management actually behaves when something refuses to let go.
