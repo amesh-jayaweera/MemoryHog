@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#1A1A2E">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🐷 RAM Hog"
+            android:textSize="28sp"
+            android:textColor="#E94560"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="mmap anonymous memory pressure tool"
+            android:textSize="12sp"
+            android:textColor="#888888"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- RAM Stats Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#16213E"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SYSTEM MEMORY"
+                android:textSize="11sp"
+                android:textColor="#E94560"
+                android:textStyle="bold"
+                android:letterSpacing="0.15"
+                android:layout_marginBottom="12dp"/>
+
+            <ProgressBar
+                android:id="@+id/progressRam"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:max="100"
+                android:progressTint="#E94560"
+                android:progressBackgroundTint="#0F3460"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView android:id="@+id/tvRamTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#CCCCCC"
+                android:fontFamily="monospace"
+                android:textSize="13sp"/>
+
+            <TextView android:id="@+id/tvRamFree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4CAF50"
+                android:fontFamily="monospace"
+                android:textSize="13sp"/>
+
+            <TextView android:id="@+id/tvRamUsed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF9800"
+                android:fontFamily="monospace"
+                android:textSize="13sp"/>
+
+            <TextView android:id="@+id/tvOurAlloc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#E94560"
+                android:fontFamily="monospace"
+                android:textSize="13sp"/>
+
+            <TextView android:id="@+id/tvLowMemory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:fontFamily="monospace"
+                android:textSize="13sp"
+                android:layout_marginTop="8dp"/>
+
+            <TextView android:id="@+id/tvLowMemThreshold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#888888"
+                android:fontFamily="monospace"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <!-- Allocate Buttons -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ALLOCATE (mmap + memset)"
+            android:textSize="11sp"
+            android:textColor="#E94560"
+            android:textStyle="bold"
+            android:letterSpacing="0.15"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <Button android:id="@+id/btnAlloc1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="+256 MB"
+                android:backgroundTint="#E94560"
+                android:layout_marginEnd="4dp"/>
+
+            <Button android:id="@+id/btnAlloc2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="+384 MB"
+                android:backgroundTint="#E94560"
+                android:layout_marginEnd="4dp"/>
+
+            <Button android:id="@+id/btnAlloc3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="+448 MB"
+                android:backgroundTint="#C62828"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <Button android:id="@+id/btnAlloc4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="+500 MB"
+                android:backgroundTint="#E94560"
+                android:layout_marginEnd="4dp"/>
+
+            <Button android:id="@+id/btnAlloc5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="+510 MB"
+                android:backgroundTint="#E94560"
+                android:layout_marginEnd="4dp"/>
+
+            <Button android:id="@+id/btnAlloc6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="+550 MB"
+                android:backgroundTint="#C62828"/>
+        </LinearLayout>
+
+        <!-- Release Buttons -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RELEASE (munmap)"
+            android:textSize="11sp"
+            android:textColor="#4CAF50"
+            android:textStyle="bold"
+            android:letterSpacing="0.15"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <Button android:id="@+id/btnFree1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-256 MB"
+                android:backgroundTint="#2E7D32"
+                android:layout_marginEnd="4dp"/>
+
+            <Button android:id="@+id/btnFree2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-384 MB"
+                android:backgroundTint="#2E7D32"
+                android:layout_marginEnd="4dp"/>
+
+            <Button android:id="@+id/btnFree3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-448 MB"
+                android:backgroundTint="#1B5E20"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <Button android:id="@+id/btnFree4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-500 MB"
+                android:backgroundTint="#2E7D32"
+                android:layout_marginEnd="4dp"/>
+
+            <Button android:id="@+id/btnFree5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-510 MB"
+                android:backgroundTint="#2E7D32"
+                android:layout_marginEnd="4dp"/>
+
+            <Button android:id="@+id/btnFreeAll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="FREE ALL"
+                android:backgroundTint="#1B5E20"/>
+        </LinearLayout>
+
+        <!-- Status -->
+        <TextView android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ready"
+            android:textColor="#888888"
+            android:textSize="13sp"
+            android:fontFamily="monospace"/>
+
+    </LinearLayout>
+</ScrollView>
