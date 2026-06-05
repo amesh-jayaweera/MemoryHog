@@ -3,6 +3,16 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+def localProps = new Properties()
+def localPropsFile = rootProject.file("local.properties")
+if (localPropsFile.exists()) {
+    localPropsFile.withInputStream { localProps.load(it) }
+}
+
+def secret = { String key ->
+    localProps.getProperty(key) ?: System.getenv(key)
+}
+
 android {
     namespace 'com.test.memoryhog'
     compileSdk 35
@@ -22,6 +32,27 @@ android {
 
         ndk {
             abiFilters "arm64-v8a", "x86_64"
+        }
+    }
+
+    signingConfigs {
+        release {
+            def keystorePath = secret("MEMHOG_KEYSTORE")
+            if (keystorePath) {
+                storeFile     file(keystorePath)
+                storePassword secret("MEMHOG_STORE_PASSWORD")
+                keyAlias      secret("MEMHOG_KEY_ALIAS") ?: "memoryhog"
+                keyPassword   secret("MEMHOG_KEY_PASSWORD")
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            if (secret("MEMHOG_KEYSTORE")) {
+                signingConfig signingConfigs.release
+            }
+            minifyEnabled false
         }
     }
 
