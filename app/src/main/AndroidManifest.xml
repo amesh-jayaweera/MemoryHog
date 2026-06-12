@@ -6,6 +6,15 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Android 11+ package visibility: needed so getLaunchIntentForPackage()
+         can resolve the launcher intent of the user-configured target app. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="false"
         android:label="RAM Hog"
@@ -21,10 +30,28 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".MemoryHogService"
-            android:exported="false"
-            android:foregroundServiceType="dataSync" />
+        <!--
+            Each worker runs in its own private process (:hog0..:hog7) so lmkd
+            must kill them one at a time, releasing ~1/8 of pressure per kill.
+            Combined with persisted chunk lists, killed workers auto-restart
+            (START_STICKY) and re-mmap their pages immediately.
+        -->
+        <service android:name=".HogWorker0" android:exported="false"
+            android:process=":hog0" android:foregroundServiceType="dataSync" />
+        <service android:name=".HogWorker1" android:exported="false"
+            android:process=":hog1" android:foregroundServiceType="dataSync" />
+        <service android:name=".HogWorker2" android:exported="false"
+            android:process=":hog2" android:foregroundServiceType="dataSync" />
+        <service android:name=".HogWorker3" android:exported="false"
+            android:process=":hog3" android:foregroundServiceType="dataSync" />
+        <service android:name=".HogWorker4" android:exported="false"
+            android:process=":hog4" android:foregroundServiceType="dataSync" />
+        <service android:name=".HogWorker5" android:exported="false"
+            android:process=":hog5" android:foregroundServiceType="dataSync" />
+        <service android:name=".HogWorker6" android:exported="false"
+            android:process=":hog6" android:foregroundServiceType="dataSync" />
+        <service android:name=".HogWorker7" android:exported="false"
+            android:process=":hog7" android:foregroundServiceType="dataSync" />
 
     </application>
 </manifest>

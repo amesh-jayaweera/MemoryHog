@@ -20,7 +20,7 @@ Java/Kotlin allocations live on the managed heap, which Android caps per-process
 
 This sidesteps the Dalvik/ART heap limit entirely. The only ceiling is the device's free RAM (plus whatever zRAM/swap the OEM has configured).
 
-To stop Android from killing the process the moment you switch apps, the allocations are owned by a **foreground service** (`MemoryHogService`) with a persistent notification. Foreground services are near the top of the OOM-killer's "leave alone" list, so the held pages survive backgrounding.
+To stop Android from killing the process the moment you switch apps, the allocations are owned by **8 foreground services** (`HogWorker0` … `HogWorker7`) each running in its own private process. This matters under real memory pressure: when the kernel's low-memory killer wants to free RAM for the target app, it has to evict workers one at a time, releasing roughly 1/8 of the held pressure per kill cycle instead of dropping everything at once. Each worker persists its allocation list (`SharedPreferences`) and is declared `START_STICKY`, so any process the kernel kills auto-restarts and re-`mmap`s its chunks within seconds — the kill becomes a brief sawtooth in the held total rather than a cliff.
 
 ## Project layout
 
@@ -30,8 +30,9 @@ app/src/main/
 │   ├── memory_hog.cpp        # mmap/munmap allocator, JNI entrypoints
 │   └── CMakeLists.txt
 ├── java/com/test/memoryhog/
-│   ├── MainActivity.kt       # UI; binds to the service
-│   ├── MemoryHogService.kt   # Foreground service that owns the allocations
+│   ├── MainActivity.kt       # UI
+│   ├── HogCoordinator.kt     # Distributes allocations across workers, aggregates stats
+│   ├── HogWorker.kt          # Abstract foreground service + 8 per-process subclasses
 │   └── NativeMemory.kt       # JNI bindings (loads libmemoryhog.so)
 ├── res/layout/activity_main.xml
 └── AndroidManifest.xml
